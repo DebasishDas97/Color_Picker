@@ -18,25 +18,24 @@ export default function useGetColorData() {
     )
       .then((response) => response.json())
       .then(({ colors }) => {
-        try {
-          const data = colors.map((color: ColorDetails) => {
-            const rgb = hexToRgbMemoized(color.hex);
-            const hsl = rgbToHslMemoized(rgb.split(",").map((val) => +val));
-            return {
-              ...color,
-              rgb,
-              hsl,
-            };
-          });
-          setColorData(data);
-          setLoading(false);
-        } catch (error) {
-          setHasError(true);
-          setLoading(false);
-        }
+        const data = colors?.map((color: ColorDetails) => {
+          const rgb = hexToRgbMemoized(color.hex);
+          const hsl = rgbToHslMemoized(rgb.split(",").map((val) => +val));
+          return {
+            ...color,
+            rgb,
+            hsl,
+          };
+        });
+        setColorData(data);
+        setLoading(false);
+        setHasError(false);
       })
+      .catch((_) => {
+        setHasError(true);
+        setLoading(false);
+      });
   };
-
 
   useEffect(() => {
     fetchColors();

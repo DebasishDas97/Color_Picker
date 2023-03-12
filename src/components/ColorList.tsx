@@ -25,7 +25,7 @@ export default function ColorList() {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map(({ color, hex, rgb, hsl }) => (
+            {filteredData?.map(({ color, hex, rgb, hsl }) => (
               <tr key={hex} className="">
                 <td
                   className="w-10 h-10 rounded-md"
