@@ -14,12 +14,32 @@ export const ColorProvider = ({ children }: Props) => {
   const { colorData, loading, fetchColors, serverMessage } = useGetColorData();
   const [searchQuery, setSearchQuery] = useState("");
 
+  let filteredData = colorData?.filter((item) => {
+    if (searchQuery.toLowerCase() === "") {
+      return item;
+    } else if (searchQuery.toLowerCase().includes("rgb(")) {
+      const searchTerm = searchQuery
+        .replaceAll("rgb(", "")
+        .split("")
+        .slice(0, -1)
+        .join("");
+      return item.rgb.toLowerCase().includes(searchTerm);
+    } else
+      return (
+        item.color.toLowerCase().includes(searchQuery) ||
+        item.hex.toLowerCase().includes(searchQuery)
+      );
+  });
+
+  if (searchQuery !== "") {
+    filteredData = filteredData?.slice(0, 100);
+  }
 
   return (
     <ColorPickerContext.Provider
       value={{
         loading,
-        colorData,
+        filteredData,
         searchQuery,
         serverMessage,
         setSearchQuery,

@@ -1,7 +1,7 @@
 import useGlobalContext from "../context/context";
 
 export default function Search() {
-  const { setSearchQuery, colorData, fetchColors, serverMessage } =
+  const { setSearchQuery, filteredData, fetchColors, serverMessage } =
     useGlobalContext()!;
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ export default function Search() {
           type="color"
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        {!colorData || serverMessage ? (
+        {filteredData.length === 0 && serverMessage ? (
           <button
             className="px-6 py-2.5 rounded-md ml-5 bg-green-600 text-white text-xl cursor-pointer"
             onClick={fetchColors}

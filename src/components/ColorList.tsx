@@ -1,34 +1,14 @@
 import useGlobalContext from "../context/context";
 import Error from "./Error";
+import { useRef, useEffect, useState } from "react"
 
 export default function ColorList() {
-  const { loading, colorData, searchQuery } = useGlobalContext()!;
+  const { loading, filteredData } = useGlobalContext()!;
 
   if (loading) {
     return (
       <div className="lds-hourglass flex justify-center items-center m-10" />
     );
-  }
-
-  let filteredData = colorData?.filter((item) => {
-    if (searchQuery.toLowerCase() === "") {
-      return item;
-    } else if (searchQuery.toLowerCase().includes("rgb(")) {
-      const searchTerm = searchQuery
-        .replaceAll("rgb(", "")
-        .split("")
-        .slice(0, -1)
-        .join("");
-      return item.rgb.toLowerCase().includes(searchTerm);
-    } else
-      return (
-        item.color.toLowerCase().includes(searchQuery) ||
-        item.hex.toLowerCase().includes(searchQuery)
-      );
-  });
-
-  if (searchQuery !== "") {
-    filteredData = filteredData?.slice(0, 100);
   }
 
   return filteredData.length !== 0 ? (
@@ -46,7 +26,7 @@ export default function ColorList() {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map(({color, hex, rgb, hsl}) => (
+            {filteredData.map(({ color, hex, rgb, hsl }) => (
               <tr key={hex} className="">
                 <td
                   className="w-10 h-10 rounded-md"

@@ -9,7 +9,7 @@ interface ColorDetails {
 
 interface ColorPickerContextData {
   loading: boolean;
-  colorData: ColorDetails[];
+  filteredData: ColorDetails[];
   searchQuery: string;
   serverMessage: unknown;
   setSearchQuery: Dispatch<SetStateAction<string>>;
