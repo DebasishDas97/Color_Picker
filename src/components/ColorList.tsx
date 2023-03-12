@@ -1,6 +1,5 @@
 import useGlobalContext from "../context/context";
 import Error from "./Error";
-import { useRef, useEffect, useState } from "react"
 
 export default function ColorList() {
   const { loading, filteredData } = useGlobalContext()!;
