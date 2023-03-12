@@ -11,7 +11,7 @@ interface ColorPickerContextData {
   loading: boolean;
   filteredData: ColorDetails[];
   searchQuery: string;
-  serverMessage: unknown;
+  hasError: boolean;
   setSearchQuery: Dispatch<SetStateAction<string>>;
   fetchColors: () => void;
 }

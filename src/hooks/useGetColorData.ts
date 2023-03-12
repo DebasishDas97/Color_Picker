@@ -6,7 +6,7 @@ import { ColorDetails } from "../interfaces/interface";
 export default function useGetColorData() {
   const [colorData, setColorData] = useState<ColorDetails[]>([]);
   const [loading, setLoading] = useState(false);
-  const [serverMessage, setServerMessage] = useState<unknown>();
+  const [hasError, setHasError] = useState(false);
 
   const hexToRgbMemoized = useMemo(() => hexToRgb, []);
   const rgbToHslMemoized = useMemo(() => rgbToHsl, []);
@@ -31,14 +31,10 @@ export default function useGetColorData() {
           setColorData(data);
           setLoading(false);
         } catch (error) {
-          setServerMessage(error);
+          setHasError(true);
           setLoading(false);
         }
       })
-      .catch((error) => {
-        setServerMessage(error);
-        setLoading(false);
-      });
   };
 
 
@@ -46,5 +42,5 @@ export default function useGetColorData() {
     fetchColors();
   }, []);
 
-  return { colorData, loading, fetchColors, serverMessage, setServerMessage };
+  return { colorData, loading, fetchColors, hasError };
 }

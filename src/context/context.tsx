@@ -11,7 +11,7 @@ const ColorPickerContext = createContext<ColorPickerContextData | undefined>(
 );
 
 export const ColorProvider = ({ children }: Props) => {
-  const { colorData, loading, fetchColors, serverMessage } = useGetColorData();
+  const { colorData, loading, fetchColors, hasError } = useGetColorData();
   const [searchQuery, setSearchQuery] = useState("");
 
   let filteredData = colorData?.filter((item) => {
@@ -41,7 +41,7 @@ export const ColorProvider = ({ children }: Props) => {
         loading,
         filteredData,
         searchQuery,
-        serverMessage,
+        hasError,
         setSearchQuery,
         fetchColors,
       }}
