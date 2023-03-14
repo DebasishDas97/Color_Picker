@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { rgbToHsl } from "../components/RgbToHsl";
-import { hexToRgb } from "../components/HexToRgb";
+import { rgbToHsl } from "../utils/RgbToHsl";
+import { hexToRgb } from "../utils/HexToRgb";
 import { ColorDetails } from "../interfaces/interface";
 
 export default function useGetColorData() {

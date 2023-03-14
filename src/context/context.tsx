@@ -1,6 +1,7 @@
 import { useState, createContext, useContext } from "react";
 import { ColorPickerContextData } from "../interfaces/interface";
 import useGetColorData from "../hooks/useGetColorData";
+import searchForSimilarColors from "../utils/SearchSimilarColors";
 
 type Props = {
   children: React.ReactNode;
@@ -10,6 +11,8 @@ const ColorPickerContext = createContext<ColorPickerContextData | undefined>(
   undefined
 );
 
+const MAX_SIMILAR_COLORS = 100;
+
 export const ColorProvider = ({ children }: Props) => {
   const { colorData, loading, fetchColors, hasError } = useGetColorData();
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,7 +20,7 @@ export const ColorProvider = ({ children }: Props) => {
   let filteredData = colorData?.filter((item) => {
     if (searchQuery.toLowerCase() === "") {
       return item;
-    } else if (searchQuery.toLowerCase().includes("rgb(")) {
+    } else if (searchQuery.startsWith("rgb(") && searchQuery.endsWith(")")) {
       const searchTerm = searchQuery
         .replaceAll("rgb(", "")
         .split("")
@@ -32,7 +35,8 @@ export const ColorProvider = ({ children }: Props) => {
   });
 
   if (searchQuery !== "") {
-    filteredData = filteredData?.slice(0, 100);
+    const similarColors = searchForSimilarColors(searchQuery, colorData);
+    filteredData = [...filteredData, ...similarColors].slice(0, MAX_SIMILAR_COLORS);
   }
 
   return (
